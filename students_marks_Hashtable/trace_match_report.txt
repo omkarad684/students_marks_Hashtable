@@ -1,0 +1,168 @@
+# TRACE-MATCH REPORT – STUDENT MARKS HASH TABLE
+
+## 1. Student and Assignment Details
+
+- PRN: 202501100161
+- Scenario: Student Marks
+- Seed value (S): 0161 = 161
+- PRN mod 3: 1
+- PRN mod 2: 1
+- Hashing method: Mid-Square Method
+- Collision handling: Separate Chaining
+- Hash table size (m): 11
+
+## 2. Personalized Dataset
+
+The dataset is generated using:
+
+v[i] = (S + 13 × i) mod 100
+
+where S = 161 and i = 0 to 19.
+
+The 20 generated values are:
+
+61, 74, 87, 0, 13, 26, 39, 52, 65, 78, 91, 4, 17, 30, 43, 56, 69, 82, 95, 8.
+
+## 3. Hash Function
+
+The Mid-Square Method is used.
+
+Steps:
+1. Square the given key.
+2. Extract the middle digit or digits from the square.
+3. Take the extracted number modulo the table size.
+
+The implementation uses:
+
+h(k) = middle digits of k² mod 11
+
+The number of extracted digits is based on the number of digits in m - 1. For m = 11, two middle digits are extracted.
+
+Note: This report follows the digit-extraction convention implemented in the submitted C++ program.
+
+## 4. Hand-Predicted Hash Table
+
+Before running the program, the expected bucket positions were calculated using the implemented mid-square method.
+
+| Key | Square | Middle digits | Index |
+|---|---:|---:|---:|
+| 61 | 3721 | 72 | 6 |
+| 74 | 5476 | 47 | 3 |
+| 87 | 7569 | 56 | 1 |
+| 0 | 0 | 00 | 0 |
+| 13 | 169 | 16 | 5 |
+| 26 | 676 | 67 | 1 |
+| 39 | 1521 | 52 | 8 |
+| 52 | 2704 | 70 | 4 |
+| 65 | 4225 | 22 | 0 |
+| 78 | 6084 | 08 | 8 |
+| 91 | 8281 | 28 | 6 |
+| 4 | 16 | 16 | 5 |
+| 17 | 289 | 28 | 6 |
+| 30 | 900 | 90 | 2 |
+| 43 | 1849 | 84 | 7 |
+| 56 | 3136 | 13 | 2 |
+| 69 | 4761 | 76 | 10 |
+| 82 | 6724 | 72 | 6 |
+| 95 | 9025 | 02 | 2 |
+| 8 | 64 | 64 | 9 |
+
+## 5. Predicted Final Hash Table
+
+After inserting all 20 values in order, the predicted table is:
+
+| Index | Predicted chain |
+|---:|---|
+| 0 | 0 → 65 → NULL |
+| 1 | 87 → 26 → NULL |
+| 2 | 30 → 56 → 95 → NULL |
+| 3 | 74 → NULL |
+| 4 | 52 → NULL |
+| 5 | 13 → 4 → NULL |
+| 6 | 61 → 91 → 17 → 82 → NULL |
+| 7 | 43 → NULL |
+| 8 | 39 → 78 → NULL |
+| 9 | 8 → NULL |
+| 10 | 69 → NULL |
+
+The duplicate key test inserts 61 again. Therefore, the final chain at index 6 becomes:
+
+61 → 91 → 17 → 82 → 61 → NULL
+
+## 6. Actual Program Output
+
+The program was compiled and executed using:
+
+g++ main.cpp -o main.exe
+
+Execution command:
+
+.\main.exe
+
+Input:
+
+- Hash table size: 11
+- Search key: 61
+
+Actual final hash table:
+
+```text
+0 -> 0 -> 65 -> NULL
+1 -> 87 -> 26 -> NULL
+2 -> 30 -> 56 -> 95 -> NULL
+3 -> 74 -> NULL
+4 -> 52 -> NULL
+5 -> 13 -> 4 -> NULL
+6 -> 61 -> 91 -> 17 -> 82 -> 61 -> NULL
+7 -> 43 -> NULL
+8 -> 39 -> 78 -> NULL
+9 -> 8 -> NULL
+10 -> 69 -> NULL
+```
+
+Search result:
+
+```text
+Enter mark to search: 61
+Key 61 found at index 6
+```
+
+## 7. Trace-Match Comparison
+
+| Index | Predicted after duplicate test | Actual output | Result |
+|---:|---|---|---|
+| 0 | 0 → 65 | 0 → 65 | Match |
+| 1 | 87 → 26 | 87 → 26 | Match |
+| 2 | 30 → 56 → 95 | 30 → 56 → 95 | Match |
+| 3 | 74 | 74 | Match |
+| 4 | 52 | 52 | Match |
+| 5 | 13 → 4 | 13 → 4 | Match |
+| 6 | 61 → 91 → 17 → 82 → 61 | 61 → 91 → 17 → 82 → 61 | Match |
+| 7 | 43 | 43 | Match |
+| 8 | 39 → 78 | 39 → 78 | Match |
+| 9 | 8 | 8 | Match |
+| 10 | 69 | 69 | Match |
+
+## 8. Collision Analysis
+
+Collisions occurred when two or more keys produced the same hash index.
+
+Examples:
+- Index 0: 0 and 65
+- Index 1: 87 and 26
+- Index 2: 30, 56 and 95
+- Index 5: 13 and 4
+- Index 6: 61, 91, 17 and 82
+- Index 8: 39 and 78
+
+Separate chaining successfully stored all colliding values in linked lists without losing any values.
+
+## 9. Mismatch Analysis
+
+No mismatch was observed between the hand-predicted table and the actual program output when using the same mid-square digit-extraction convention and table size.
+
+The duplicate key 61 was also correctly inserted into index 6. The search operation successfully located 61 at index 6.
+
+## 10. Conclusion
+
+The Trace-Match test confirms that the implemented mid-square hash function and separate chaining work correctly for the personalized dataset. All 20 generated values were inserted, collisions were handled, duplicate insertion was tested, and searching returned the expected result. The predicted and actual hash tables matched completely.

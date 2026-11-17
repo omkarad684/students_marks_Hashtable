@@ -1,0 +1,41 @@
+# DEBUGGING LOG – STUDENT MARKS HASH TABLE
+
+**PRN:** 202501100161  
+**Scenario:** Student Marks  
+**Hashing Method:** Mid-Square Method  
+**Collision Handling:** Separate Chaining  
+**Hash Table Size Used for Testing:** 11
+
+## Commit 1: Initial Student Marks Hash Table
+**Commit:** `40591e9`
+
+I created the initial C++ program for the Student Marks Hash Table. I defined the personalized dataset containing 20 values generated using the assigned PRN seed. I also implemented the mid-square hashing function and created the hash table using a vector of linked lists. During initial development, I checked whether the calculated indexes were within the table range and corrected the implementation to store values in the appropriate buckets.
+
+## Commit 2: Duplicate Key Insertion Testing
+**Commit:** `99fdcba`
+
+I added duplicate key insertion testing to check whether the hash table could store repeated values. I inserted the key 61 again after inserting the original 20 values. The duplicate was stored in the same bucket using separate chaining. The final display confirmed that the bucket at index 6 contained 61 twice, demonstrating that duplicate values were supported.
+
+## Commit 3: Hash Table Size Input Validation
+**Commit:** `518bc7d`
+
+I improved the validation of the hash table size entered by the user. Initially, an invalid or non-positive table size could cause problems during table creation or hashing. I added a condition to check whether the input was a valid integer greater than zero. Invalid input now displays "Invalid table size" and stops the program.
+
+## Commit 4: Hash Table Search Functionality
+**Commit:** `c946358`
+
+I implemented a search function to find a particular student mark in the hash table. The function calculates the bucket index using the same mid-square hash function and searches through the linked list at that index. I tested marks 61 and 91, which were found at index 6, and mark 99, which was reported as not found.
+
+## Commit 5: Search Input Validation
+**Commit:** `248b93e`
+
+I improved the search operation by adding validation for the mark entered by the user. During testing, I entered alphabetic input instead of an integer. Without validation, the search could not process the input correctly. I added an input check using `cin`. The program now displays "Invalid search input" when a non-integer value is entered.
+
+## Commit 6: Collision Detection During Insertion
+**Commit:** `39f3fae`
+
+I improved the insertion function to detect collisions. Before inserting a value, the program checks whether the calculated bucket is already occupied. If it is occupied, the program displays a collision message and then inserts the value into the same bucket using separate chaining. I tested the program with table size 11 and confirmed that collisions were detected at indexes 0, 1, 2, 5, 6 and 8.
+
+## Conclusion
+
+Through these development stages, I implemented and tested a personalized student marks hash table using the mid-square hashing method and separate chaining. I also added duplicate insertion testing, input validation, searching and collision detection. The final program successfully inserted all 20 personalized values and found the key 61 at index 6.
